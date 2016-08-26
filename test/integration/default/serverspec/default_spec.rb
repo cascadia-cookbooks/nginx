@@ -6,7 +6,7 @@ describe 'nginx::default' do
   end
 
   describe command('nginx -v') do
-    its(:stderr) { should match /1.10.1/ }
+    its(:stderr) { should match /1.10.0/ }
   end
 
   it 'the NGINX service is enabled' do
