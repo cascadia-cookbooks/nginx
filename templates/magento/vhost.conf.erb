@@ -1,0 +1,143 @@
+server {
+    server_name <%= @hostname %>;
+    root <%= @root %>;
+    index index.html index.php;
+
+    access_log /var/log/nginx/<%= @hostname %>.access.log;
+    error_log /var/log/nginx/<%= @hostname %>.error.log;
+
+    listen 80;
+
+    client_max_body_size        16m;
+    client_body_buffer_size     2m;
+    client_header_buffer_size   16k;
+    large_client_header_buffers 8 8k;
+
+    index index.html index.php;
+
+    include /etc/nginx/fastcgi_params;
+
+    fastcgi_read_timeout <%= @config['fastcgi_read_timeout'] || '90s' %>;
+    fastcgi_send_timeout <%= @config['fastcgi_send_timeout'] || '90s' %>;
+    fastcgi_index index.php;
+<%- if node.chef_environment == 'development' -%>
+    fastcgi_param MAGE_IS_DEVELOPER_MODE 1;
+<% end -%>
+
+    # https://newrelic.com/docs/features/request-queuing-and-tracking-front-end-time
+    fastcgi_param X-Request-Start "t=${msec}000";
+
+    # performance tuning
+    # any reply by the FastCGI process in the backend greater than 2M goes to disk
+    fastcgi_buffers           512 16k;
+    fastcgi_buffer_size       512k;
+    fastcgi_busy_buffers_size 512k;
+
+    # compression
+    # http://nginx.org/en/docs/http/ngx_http_gzip_module.html
+    gzip              on;
+    gzip_vary         on;
+    gzip_min_length   1000;
+    gzip_proxied      no-cache no-store private expired auth;
+    gzip_comp_level   6;
+    gzip_buffers      16 8k;
+    gzip_http_version 1.1;
+    gzip_disable      "MSIE [1-6]\.";
+    gzip_types
+        application/atom+xml
+        application/javascript
+        application/json
+        application/rss+xml
+        application/vnd.ms-fontobject
+        application/x-font-ttf
+        application/x-javascript
+        application/x-web-app-manifest+json
+        application/xhtml+xml
+        application/xml
+        application/xml+rss
+        font/opentype
+        image/svg+xml
+        image/x-icon
+        text/css
+        text/html
+        text/javascript
+        text/plain
+        text/x-component
+        text/xml;
+
+    open_file_cache          max=2000 inactive=20s;
+    open_file_cache_valid    60s;
+    open_file_cache_min_uses 5;
+    open_file_cache_errors   off;
+
+    location /robots.txt {
+        allow all;
+        try_files $uri =404;
+    }
+
+    # deny access to dotfiles
+    location ~ /\. { deny all; access_log off; }
+
+    # disable PHP execution in var and media
+    location /var { location ~ \.php$ {return 403;} }
+    location /media { location ~ \.php$ {return 403;} }
+
+    # deny access to directories
+    location ^~ /app/                { deny all; access_log off; }
+    location ^~ /archive/            { deny all; access_log off; }
+    location ^~ /chef/               { deny all; access_log off; }
+    location ^~ /dev/                { deny all; access_log off; }
+    location ^~ /downloader/         { deny all; access_log off; }
+    location ^~ /includes/           { deny all; access_log off; }
+    location ^~ /lib/                { deny all; access_log off; }
+    location ^~ /media/downloadable/ { deny all; access_log off; }
+    location ^~ /shell/              { deny all; access_log off; }
+    location ^~ /utility/            { deny all; access_log off; }
+    location ^~ /var/                { deny all; access_log off; }
+    location ^~ /vendor/             { deny all; access_log off; }
+
+    # deny access to files
+    location ^~ /Berksfile     { deny all; access_log off; }
+    location ^~ /composer.json { deny all; access_log off; }
+    location ^~ /cron.php      { deny all; access_log off; }
+    location ^~ /install.php   { deny all; access_log off; }
+    location ^~ /gulpfile.js   { deny all; access_log off; }
+    location ^~ /mage          { deny all; access_log off; }
+    location ^~ /package.json  { deny all; access_log off; }
+    location ^~ /Vagrantfile   { deny all; access_log off; }
+
+    # deny access to file types
+    location ~* \.(lock|txt|md|sh|sql|markdown)(\?[0-9]+)?$ {
+        deny all;
+    }
+
+    location ~* \.(jpg|jpeg|gif|css|png|js|ico|txt|swf|xml|svg|svgz|mp4|ogg|ogv|eot|woff|ttf)(\?[0-9]+)?$ {
+        log_not_found off;
+        access_log    off;
+        expires       max;
+        add_header Cache-Control "public";
+    }
+
+    location / {
+        try_files $uri $uri/ @rewrite;
+    }
+
+    location ~* \.php$ {
+        try_files $uri =404;
+        expires   off;
+
+        include /etc/nginx/fastcgi_params;
+
+        fastcgi_param MAGE_RUN_CODE <%= @config['mage_run_code'] || 'base' %>;
+        fastcgi_param MAGE_RUN_TYPE <%= @config['mage_run_type'] || 'website' %>;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param SCRIPT_NAME $fastcgi_script_name;
+        fastcgi_param HTTP_PROXY "";
+
+        fastcgi_pass unix:<%= node['ham']['php']['fpm']['listen'] %>;
+    }
+
+    location @rewrite {
+       rewrite / /index.php;
+    }
+}

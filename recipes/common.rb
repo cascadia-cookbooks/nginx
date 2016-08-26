@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: cop_nginx
-# Recipe:: default
+# Recipe:: common
 # Author:: Copious Inc. <engineering@copiousinc.com>
 #
 # The MIT License (MIT)
@@ -25,5 +25,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-include_recipe "cop_nginx::#{node['nginx']['install_method']}"
-include_recipe 'cop_nginx::common'
+file '/etc/nginx/sites-available/default' do
+    backup   false
+    action   :delete
+    notifies :restart, 'service[nginx]', :delayed
+    only_if  node['nginx']['remove_default_site']
+end
+
+template 'installing master nginx config' do
+    path     '/etc/nginx/nginx.conf'
+    source   'nginx/nginx.conf.erb'
+    group    'root'
+    owner    'root'
+    mode     0644
+    backup   false
+    action   :create
+    notifies :restart, 'service[nginx]', :delayed
+end
+
+service 'nginx' do
+    action [:enable, :start]
+end

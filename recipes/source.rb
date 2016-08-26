@@ -25,5 +25,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-include_recipe "cop_nginx::#{node['nginx']['install_method']}"
-include_recipe 'cop_nginx::common'
+# TODO: download tarball
+# TODO: unpack
+# TODO: clean up
+# TODO: compile
+# TODO: handle files
