@@ -27,6 +27,8 @@
 
 include_recipe 'apt'
 
+#TODO: add nginx apt repo
+
 package 'nginx' do
     action :install
 end
