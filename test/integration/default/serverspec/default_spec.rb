@@ -5,7 +5,11 @@ describe 'nginx::default' do
     it { should be_installed }
   end
 
-  describe command('nginx -v') do
+  describe command('nginx -v'), :if => os[:release] == '14.04' do
+    its(:stderr) { should match /1.4.6/ }
+  end
+
+  describe command('nginx -v'), :if => os[:release] == '16.04' do
     its(:stderr) { should match /1.10.0/ }
   end
 

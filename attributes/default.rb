@@ -3,7 +3,13 @@ default['nginx']['remove_default_site'] = 'true'
 
 # latest stable release
 default['nginx']['install_method'] = 'package'
-default['nginx']['version']        = '1.10.0'
+
+case lsb[:release]
+when '14.04'
+    default['nginx']['version'] = '1.4.6'
+when '16.04'
+    default['nginx']['version'] = '1.10.0'
+end
 
 # master config options
 default['nginx']['user']               = 'www-data'

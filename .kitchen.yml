@@ -13,4 +13,3 @@ suites:
   - name: default
     run_list:
       - recipe[cop_nginx::default]
-    attributes:
