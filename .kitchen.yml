@@ -13,3 +13,4 @@ suites:
   - name: default
     run_list:
       - recipe[cop_nginx::default]
+    attributes: { nginx: { install_method: "package" } }

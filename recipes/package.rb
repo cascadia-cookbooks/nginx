@@ -27,8 +27,10 @@
 
 include_recipe 'apt'
 
-#TODO: add nginx apt repo
+# TODO: add nginx apt repo
+# https://github.com/copious-cookbooks/nginx/issues/3
 
 package 'nginx' do
     action :install
+    version node['nginx']['version']
 end

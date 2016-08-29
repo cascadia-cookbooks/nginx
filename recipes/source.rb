@@ -25,8 +25,5 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# TODO: download tarball
-# TODO: unpack
-# TODO: clean up
-# TODO: compile
-# TODO: handle files
+# TODO: install from source
+# https://github.com/copious-cookbooks/nginx/issues/2

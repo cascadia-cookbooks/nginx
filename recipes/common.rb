@@ -25,6 +25,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+dirs = %w(sites-enabled sites-available)
+dirs.each do |dir|
+    directory "/etc/nginx/#{dir}" do
+        owner  'root'
+        group  'root'
+        mode   0755
+        action :create
+    end
+end
+
 file '/etc/nginx/sites-available/default' do
     backup   false
     action   :delete
