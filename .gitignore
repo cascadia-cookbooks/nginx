@@ -12,3 +12,6 @@ bin/*
 
 .kitchen/
 .kitchen.local.yml
+
+# Upstream deps
+Berksfile.lock
