@@ -54,16 +54,13 @@ Include this resource in a custom cookbook recipe.
 * http://kitchen.ci
 * http://serverspec.org
 
-Testing is handled with ServerSpec, via Test Kitchen, which uses Docker to spin up VMs.
+Testing is handled with ServerSpec, via Test Kitchen, which uses Vagrant to spin up VMs.
 
 ServerSpec and Test Kitchen are bundled in the ChefDK package.
 
 ### Dependencies
 ```bash
 $ brew cask install chefdk
-$ chef gem install kitchen-docker
-$ brew install docker docker-machine
-$ docker-machine create default --driver virtualbox
 ```
 
 ### Running
@@ -92,13 +89,6 @@ $ kitchen test
 ```
 
 ### Errors
-If you're seeing "You must first install the Docker CLI tool" when you already
-have `docker` and `docker-machine` installed, run the command below to update
-your shell session's ENV variables:
-
-```bash
-$ eval "$(docker-machine env)"
-```
 
 ## Notes
 * The `Berksfile.lock` file has been purposely omitted, as we don't care about upstream dependencies.
