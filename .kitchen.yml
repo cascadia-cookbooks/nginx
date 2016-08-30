@@ -1,13 +1,16 @@
 ---
 driver:
-  name: vagrant
-
-provisioner:
-  name: chef_zero
+  name: docker
+  provision_command: curl -L https://www.chef.io/chef/install.sh | bash
 
 platforms:
-  - name: ubuntu-14.04
-  - name: ubuntu-16.04
+- name: ubuntu-14.04
+  driver_config:
+    image: ubuntu:14.04
+    platform: ubuntu
+                                                                                                                                                                                                            - name: ubuntu-16.04                                                                                                                                                                                          driver_config:
+    image: ubuntu:16.04
+    platform: ubuntu
 
 suites:
   - name: default
