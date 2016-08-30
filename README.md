@@ -21,16 +21,33 @@ This will install the NGINX web server via package.  At this time this cookbook 
 Here's an example `nginx` role that will install Nginx.
 
 ```ruby
-name "nginx"
-description "install nginx"
+name 'nginx'
+description 'install nginx'
 override_attributes(
-  "nginx" => {
-    "install_method" => "package"
+  'nginx' => {
+    'install_method' => 'package'
   }
 )
 run_list(
-  "recipe[cop_nginx::default]"
+  'recipe[cop_nginx::default]'
 )
+```
+
+If you have a Magento application to serve with nginx, use the `magento_vhost` resource to
+create a vhost for it. Just be sure to include the `cop_nginx` cookbook as a dependency in your `metadata.rb` file.
+
+Include this resource in a custom cookbook recipe.
+```bash
+    # NOTE: obviously the hostname, docroot, and fpm may be different depending on your stack
+    host = 'www.copiousinc.com'
+
+    magento_vhost host do
+        docroot       '/var/www/copiousinc.com'
+        fpm_location  'unix:/var/run/php5-fpm.sock'
+        mage_run_code 'default'
+        mage_run_type 'store'
+        action        :create
+    end
 ```
 
 ## Testing

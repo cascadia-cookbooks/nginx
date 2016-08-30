@@ -1,6 +1,6 @@
 server {
     server_name <%= @hostname %>;
-    root <%= @root %>;
+    root <%= @docroot %>;
     index index.html index.php;
 
     access_log /var/log/nginx/<%= @hostname %>.access.log;
@@ -15,20 +15,10 @@ server {
 
     index index.html index.php;
 
-    include /etc/nginx/fastcgi_params;
-
-    fastcgi_read_timeout <%= @config['fastcgi_read_timeout'] || '90s' %>;
-    fastcgi_send_timeout <%= @config['fastcgi_send_timeout'] || '90s' %>;
-    fastcgi_index index.php;
-<%- if node.chef_environment == 'development' -%>
-    fastcgi_param MAGE_IS_DEVELOPER_MODE 1;
-<% end -%>
-
     # https://newrelic.com/docs/features/request-queuing-and-tracking-front-end-time
-    fastcgi_param X-Request-Start "t=${msec}000";
+    # fastcgi_param X-Request-Start "t=${msec}000";
 
     # performance tuning
-    # any reply by the FastCGI process in the backend greater than 2M goes to disk
     fastcgi_buffers           512 16k;
     fastcgi_buffer_size       512k;
     fastcgi_busy_buffers_size 512k;
@@ -82,7 +72,7 @@ server {
     location /var { location ~ \.php$ {return 403;} }
     location /media { location ~ \.php$ {return 403;} }
 
-    # deny access to directories
+    # deny access to misc directories
     location ^~ /app/                { deny all; access_log off; }
     location ^~ /archive/            { deny all; access_log off; }
     location ^~ /chef/               { deny all; access_log off; }
@@ -96,7 +86,7 @@ server {
     location ^~ /var/                { deny all; access_log off; }
     location ^~ /vendor/             { deny all; access_log off; }
 
-    # deny access to files
+    # deny access to misc files
     location ^~ /Berksfile     { deny all; access_log off; }
     location ^~ /composer.json { deny all; access_log off; }
     location ^~ /cron.php      { deny all; access_log off; }
@@ -107,10 +97,9 @@ server {
     location ^~ /Vagrantfile   { deny all; access_log off; }
 
     # deny access to file types
-    location ~* \.(lock|txt|md|sh|sql|markdown)(\?[0-9]+)?$ {
-        deny all;
-    }
+    location ~* \.(lock|txt|md|sh|sql|markdown)(\?[0-9]+)?$ { deny all; access_log off; }
 
+    # defer to browser cache
     location ~* \.(jpg|jpeg|gif|css|png|js|ico|txt|swf|xml|svg|svgz|mp4|ogg|ogv|eot|woff|ttf)(\?[0-9]+)?$ {
         log_not_found off;
         access_log    off;
@@ -128,13 +117,13 @@ server {
 
         include /etc/nginx/fastcgi_params;
 
-        fastcgi_param MAGE_RUN_CODE <%= @config['mage_run_code'] || 'base' %>;
-        fastcgi_param MAGE_RUN_TYPE <%= @config['mage_run_type'] || 'website' %>;
+        fastcgi_param MAGE_RUN_CODE <%= @mage_run_code || 'default' %>;
+        fastcgi_param MAGE_RUN_TYPE <%= @mage_run_type || 'store' %>;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         fastcgi_param SCRIPT_NAME $fastcgi_script_name;
         fastcgi_param HTTP_PROXY "";
 
-        fastcgi_pass unix:<%= node['ham']['php']['fpm']['listen'] %>;
+        fastcgi_pass <%= @fpm_location || 'unix:/var/run/php5-fpm.sock' %>;
     }
 
     location @rewrite {
