@@ -21,6 +21,10 @@ describe 'nginx::default' do
     expect(service('nginx')).to be_running
   end
 
+  describe port(80) do
+    it { should be_listening.on('0.0.0.0').with('tcp') }
+  end
+
   it 'creates a www-data user' do
     expect(user('www-data')).to exist
   end
