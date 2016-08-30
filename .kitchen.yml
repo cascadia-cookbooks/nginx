@@ -1,19 +1,16 @@
 ---
 driver:
-  name: docker
-  provision_command: curl -L https://www.chef.io/chef/install.sh | bash
+  name: vagrant
+
+provisioner:
+  name: chef_zero
 
 platforms:
-- name: ubuntu-14.04
-  driver_config:
-    image: ubuntu:14.04
-    platform: ubuntu
-                                                                                                                                                                                                            - name: ubuntu-16.04                                                                                                                                                                                          driver_config:
-    image: ubuntu:16.04
-    platform: ubuntu
+  - name: ubuntu-14.04
+  - name: ubuntu-16.04
 
 suites:
   - name: default
     run_list:
       - recipe[cop_nginx::default]
-    attributes: { nginx: { install_method: "package" } }
+    attributes: { nginx: { install_method: 'package' } }
