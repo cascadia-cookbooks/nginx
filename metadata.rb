@@ -4,7 +4,6 @@ maintainer_email 'engineering@copiousinc.com'
 license 'MIT'
 description 'Installs and configures the NGINX web server.'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-chef_version '>= 12.5'
 version '0.1.1'
 
 source_url 'https://github.com/copious-cookbooks/nginx'
