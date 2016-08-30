@@ -3,6 +3,8 @@ resource_name :magento_vhost
 property :magento_vhost, String, name_property: true
 property :docroot, String, required: true
 property :fpm_location, String, required: true
+property :version, [String, Integer], required: true
+
 property :mage_run_code, String, required: false
 property :mage_run_type, String, required: false
 
@@ -17,7 +19,7 @@ action :create do
             :mage_run_code => mage_run_code,
             :mage_run_type => mage_run_type,
         })
-        source   'magento/vhost.conf.erb'
+        source   "magento/mage#{version}.vhost.conf.erb"
         owner    'root'
         group    'root'
         mode     0644
