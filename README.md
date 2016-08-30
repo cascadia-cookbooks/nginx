@@ -91,5 +91,14 @@ Run through and test all the instances in serial by running:
 $ kitchen test
 ```
 
+### Errors
+If you're seeing "You must first install the Docker CLI tool" when you already
+have `docker` and `docker-machine` installed, run the command below to update
+your shell session's ENV variables:
+
+```bash
+$ eval "$(docker-machine env)"
+```
+
 ## Notes
 * The `Berksfile.lock` file has been purposely omitted, as we don't care about upstream dependencies.
