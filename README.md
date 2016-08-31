@@ -13,9 +13,9 @@ This will install the NGINX web server via package.  At this time this cookbook 
 - apt
 
 ## Attributes
-- `node['nginx']['install_method']` = method of installation, default `package`.
-- `node['nginx']['version']` = Version of NGINX to install, defaults to latest
-  stable of package.
+- `node['nginx']['install_method']` = method of installation, defaults to `package`.
+- `node['nginx']['version']` = Version of NGINX to install, this is for installation via source, this can be ignored
+  if you're using `'install_method' = package`.
 
 ## Usage
 Here's an example `nginx` role that will install Nginx.
@@ -26,7 +26,7 @@ description 'install nginx'
 
 override_attributes(
     'nginx' => {
-        'install_method' => 'package'
+        ...
     }
 )
 
