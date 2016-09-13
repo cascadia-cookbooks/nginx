@@ -1,6 +1,9 @@
 ---
 driver:
   name: vagrant
+  ssh:
+    username: vagrant
+    password: vagrant
 
 provisioner:
   name: chef_zero
