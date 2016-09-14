@@ -25,7 +25,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-include_recipe 'apt'
+case node['platform']
+when 'ubuntu'
+    include_recipe 'apt'
+when 'centos'
+    package 'epel-release' do
+        action :install
+    end
+end
 
 # TODO: add nginx apt repo
 # https://github.com/copious-cookbooks/nginx/issues/3

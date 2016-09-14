@@ -25,9 +25,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-dirs = %w(sites-enabled sites-available)
+dirs = node['nginx']['vhost_dir']
 dirs.each do |dir|
-    directory "/etc/nginx/#{dir}" do
+    directory dir do
         owner  'root'
         group  'root'
         mode   0755
