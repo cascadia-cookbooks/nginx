@@ -11,5 +11,6 @@ issues_url 'https://github.com/copious-cookbooks/nginx/issues'
 
 supports 'ubuntu', '= 16.04'
 supports 'ubuntu', '= 14.04'
+supports 'centos', '= 7.2'
 
 depends 'apt'
