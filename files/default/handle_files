@@ -1,0 +1,48 @@
+# deny access to dotfiles
+location ~ /\. { deny all; access_log off; }
+
+# disable PHP execution in var and media
+location /var { location ~ \.php$ {return 403;} }
+location /media { location ~ \.php$ {return 403;} }
+
+# deny access to directories
+location ^~ /app/                { deny all; access_log off; }
+location ^~ /archive/            { deny all; access_log off; }
+location ^~ /chef/               { deny all; access_log off; }
+location ^~ /dev/                { deny all; access_log off; }
+location ^~ /downloader/         { deny all; access_log off; }
+location ^~ /includes/           { deny all; access_log off; }
+location ^~ /lib/                { deny all; access_log off; }
+location ^~ /media/downloadable/ { deny all; access_log off; }
+location ^~ /shell/              { deny all; access_log off; }
+location ^~ /utility/            { deny all; access_log off; }
+location ^~ /var/                { deny all; access_log off; }
+location ^~ /vendor/             { deny all; access_log off; }
+
+# deny access to files
+location ^~ /Berksfile     { deny all; access_log off; }
+location ^~ /composer.json { deny all; access_log off; }
+location ^~ /cron.php      { deny all; access_log off; }
+location ^~ /install.php   { deny all; access_log off; }
+location ^~ /gulpfile.js   { deny all; access_log off; }
+location ^~ /mage          { deny all; access_log off; }
+location ^~ /package.json  { deny all; access_log off; }
+location ^~ /Vagrantfile   { deny all; access_log off; }
+
+# deny access to file types
+location ~* \.(lock|txt|md|sh|sql|markdown)(\?[0-9]+)?$ {
+    deny all;
+}
+
+# cache static files
+location ~* \.(rss|atom)$ {
+    expires 1h;
+    add_header Cache-Control "public";
+}
+
+location ~* \.(jpg|jpeg|gif|css|png|js|ico|txt|swf|xml|svg|svgz|mp4|ogg|ogv|eot|woff|ttf)(\?[0-9]+)?$ {
+    log_not_found off;
+    access_log    off;
+    expires       1M;
+    add_header    Cache-Control "public";
+}
