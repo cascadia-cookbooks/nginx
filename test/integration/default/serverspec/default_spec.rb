@@ -23,7 +23,7 @@ describe 'nginx::default' do
 
   when '16.04'
     describe command('nginx -v') do
-      its(:stderr) { should match /1.10.0/ }
+      its(:stderr) { should match /1.10./ }
     end
 
     describe user('www-data') do
@@ -36,7 +36,7 @@ describe 'nginx::default' do
 
   when /7.2.*/
     describe command('nginx -v') do
-      its(:stderr) { should match /1.10.1/ }
+      its(:stderr) { should match /1.10./ }
     end
 
     describe user('nginx') do

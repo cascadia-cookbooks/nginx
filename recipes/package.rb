@@ -27,6 +27,7 @@
 
 case node['platform']
 when 'ubuntu'
+    # TODO: remove apt dependency
     include_recipe 'apt'
 when 'centos'
     package 'epel-release' do
@@ -38,6 +39,6 @@ end
 # https://github.com/copious-cookbooks/nginx/issues/3
 
 package 'nginx' do
-    action :install
+    action :upgrade
     version node['nginx']['version']
 end
