@@ -22,7 +22,7 @@ case node['platform_version']
 when '14.04'
     default['nginx']['version'] = '1.4.6-1ubuntu3.5'
 when '16.04'
-    default['nginx']['version'] = '1.10.0-0ubuntu0.16.04.2'
+    default['nginx']['version'] = '1.10.0-0ubuntu0.16.04.4'
 when /7.2./
     default['nginx']['user']      = 'nginx'
     default['nginx']['vhost_dir'] = [ '/etc/nginx/conf.d/' ]
