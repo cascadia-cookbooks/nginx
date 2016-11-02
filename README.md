@@ -35,36 +35,6 @@ run_list(
 )
 ```
 
-If you have a Magento application to serve with nginx, use the `magento_vhost` resource to
-create a vhost for it. Just be sure to include the `cop_nginx` cookbook as a dependency in your `metadata.rb` file.
-
-Include this resource in a custom cookbook recipe.
-
-Magento 1:
-```bash
-# NOTE: obviously the hostname, docroot, and fpm may be different depending on your stack
-
-magento_vhost 'www.copiousinc.com' do
-    docroot       '/var/www/copiousinc.com'
-    fpm_location  'unix:/var/run/php5-fpm.sock'
-    mage_run_code 'default'
-    mage_run_type 'store'
-    action        :create
-end
-```
-
-Magento 2:
-```bash
-# NOTE: obviously the hostname, docroot, and fpm may be different depending on your stack
-
-magento_vhost 'www.copiousinc.com' do
-    docroot       '/var/www/copiousinc.com'
-    fpm_location  'unix:/var/run/php5-fpm.sock'
-    version       2
-    action        :create
-end
-```
-
 ## Testing
 * http://kitchen.ci
 * http://serverspec.org
