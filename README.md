@@ -1,21 +1,21 @@
 # nginx Cookbook
-This will install the NGINX web server via package.  At this time this cookbook only supports Ubuntu 14.04 and 16.04.  In time it will also include installment via source and LWRPs for virtual hosts.
+This will install the NGINX web server via package. It will install the current
+mainline version, currently 1.11
 
 ## Requirements
-### Platforms
-- Ubuntu 14.04
-- Ubuntu 16.04
+### Supported Platforms
+* ubuntu/xenial64
+* ubuntu/trusty64
+* centos/7
+* centos/6
+* debian/jessie64
+* debian/wheezy64
 
 ### Chef
 - Chef '>= 12.5'
 
-### Cookbooks
-- apt
-
 ## Attributes
-- `node['nginx']['install_method']` = method of installation, defaults to `package`.
-- `node['nginx']['version']` = Version of NGINX to install, this is for installation via source, this can be ignored
-  if you're using `'install_method' = package`.
+- TODO
 
 ## Usage
 Here's an example `nginx` role that will install Nginx.

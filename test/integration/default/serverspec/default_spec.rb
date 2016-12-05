@@ -15,37 +15,16 @@ describe 'nginx::default' do
     expect(service('nginx')).to be_running
   end
 
-  case os[:release]
-  when '14.04'
-    describe command('nginx -v') do
-      its(:stderr) { should match /1.4.6/ }
-    end
+  describe command('nginx -v') do
+    its(:stderr) { should match /1.11.?/ }
+  end
 
-  when '16.04'
-    describe command('nginx -v') do
-      its(:stderr) { should match /1.10./ }
-    end
+  describe user('nginx') do
+    it { should exist }
+  end
 
-    describe user('www-data') do
-      it { should exist }
-    end
-
-    describe group('www-data') do
-      it { should exist }
-    end
-
-  when /7.2.*/
-    describe command('nginx -v') do
-      its(:stderr) { should match /1.10./ }
-    end
-
-    describe user('nginx') do
-      it { should exist }
-    end
-
-    describe group('nginx') do
-      it { should exist }
-    end
+  describe group('nginx') do
+    it { should exist }
   end
 
   describe file('/etc/nginx/nginx.conf') do

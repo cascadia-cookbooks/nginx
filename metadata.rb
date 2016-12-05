@@ -9,8 +9,7 @@ version '0.4.0'
 source_url 'https://github.com/copious-cookbooks/nginx'
 issues_url 'https://github.com/copious-cookbooks/nginx/issues'
 
-supports 'ubuntu', '= 16.04'
-supports 'ubuntu', '= 14.04'
-supports 'centos', '= 7.2'
-
-depends 'apt'
+supports 'ubuntu', '>= 14.04'
+supports 'debian', '>= 6'
+supports 'rhel', '>= 6'
+supports 'centos', '>= 6'

@@ -25,5 +25,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-include_recipe "cop_nginx::#{node['nginx']['install_method']}"
-include_recipe 'cop_nginx::common'
+include_recipe 'cop_nginx::dependencies'
+include_recipe 'cop_nginx::install'
+include_recipe 'cop_nginx::configure'
