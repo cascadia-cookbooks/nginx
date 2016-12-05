@@ -4,7 +4,7 @@
 # Author:: Copious Inc. <engineering@copiousinc.com>
 #
 
-file "#{node['nginx']['vhost_dir']}/default" do
+file "#{node['nginx']['vhost_dir']}/default.conf" do
     backup   false
     action   :delete
     notifies :restart, 'service[nginx]', :delayed
