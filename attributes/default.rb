@@ -1,8 +1,7 @@
 # master config options
 default['nginx'] = {
-    'remove_default_site' => 'true',
-    'install_method'      => 'package',
-    'user'                => 'www-data',
+    'remove_default_site' => false,
+    'user'                => 'nginx',
     'worker_processes'    => 2,
     'multi_accept'        => 'on',
     'worker_connections'  => 1024,
@@ -11,20 +10,10 @@ default['nginx'] = {
     'tcp_nopush'          => 'on',
     'tcp_nodelay'         => 'on',
     'keepalive_timeout'   => 30,
-    'vhost_dir'           => [
-        '/etc/nginx/sites-enabled/',
-        '/etc/nginx/sites-available/'
-    ]
+    'vhost_dir'           => '/etc/nginx/conf.d'
 }
 
-# latest stable package release
-case node['platform_version']
-when '14.04'
-    default['nginx']['version'] = '1.4.*'
-when '16.04'
-    default['nginx']['version'] = '1.10.*'
-when /7.2./
-    default['nginx']['user']      = 'nginx'
-    default['nginx']['vhost_dir'] = [ '/etc/nginx/conf.d/' ]
-    default['nginx']['version']   = '1.10.*'
+case node['platform_family']
+when 'debian'
+when 'rhel'
 end
