@@ -21,21 +21,22 @@ when 'debian'
         action :install
     end
 
-    execute 'import nginx gpg' do
-        command "apt-key add #{cache}/nginx.asc"
-        # NOTE: nginx public key id: 7BD9BF62
-        not_if  'apt-key list | grep 7BD9BF62'
-        action  :run
-    end
-
     file 'install nginx repo' do
         path    '/etc/apt/sources.list.d/nginx.list'
         content "deb https://nginx.org/packages/mainline/#{node['platform']}/ #{node['lsb']['codename']} nginx"
         user   'root'
         group  'root'
         mode   0644
-        action :create
+        action :create_if_missing
+        notifies :run, 'execute[import nginx gpg]', :immediately
         notifies :run, 'execute[update apt]', :immediately
+    end
+
+    execute 'import nginx gpg' do
+        command "apt-key add #{cache}/nginx.asc"
+        # NOTE: nginx public key id: 7BD9BF62
+        not_if  'apt-key list | grep 7BD9BF62'
+        action  :nothing
     end
 
     execute 'update apt' do
@@ -43,13 +44,6 @@ when 'debian'
         action  :nothing
     end
 when 'rhel'
-    execute 'import nginx gpg' do
-        command "rpm --import #{cache}/nginx.asc"
-        # NOTE: nginx public key id: 7BD9BF62
-        not_if  'rpm -qa gpg-pubkey* | grep 7BD9BF62'
-        action  :run
-    end
-
     file 'install nginx repo' do
         path    '/etc/yum.repos.d/nginx.repo'
         content "[nginx]
@@ -60,6 +54,14 @@ gpgcheck=1"
         user   'root'
         group  'root'
         mode   0644
-        action :create
+        action :create_if_missing
+        notifies :run, 'execute[import nginx gpg]', :immediately
+    end
+
+    execute 'import nginx gpg' do
+        command "rpm --import #{cache}/nginx.asc"
+        # NOTE: nginx public key id: 7BD9BF62
+        not_if  'rpm -qa gpg-pubkey* | grep 7BD9BF62'
+        action  :nothing
     end
 end
