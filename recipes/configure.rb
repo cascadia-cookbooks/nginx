@@ -17,7 +17,7 @@ template 'installing master nginx config' do
     group    'root'
     owner    'root'
     mode     0644
-    backup   false
+    backup   5
     action   :create
     notifies :restart, 'service[nginx]', :delayed
 end
