@@ -23,5 +23,6 @@ template 'installing master nginx config' do
 end
 
 service 'nginx' do
-    action [:enable, :start]
+    action :enable
+    notifies :start, 'service[nginx]', :delayed
 end
