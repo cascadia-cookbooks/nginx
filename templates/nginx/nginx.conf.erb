@@ -27,10 +27,6 @@ http {
     keepalive_timeout <%= node['nginx']['keepalive_timeout'] %>;
     autoindex         off;
 
-    gzip            on;
-    gzip_comp_level 2;
-    gzip_proxied    any;
-    gzip_types      text/plain text/css application/x-javascript text/xml application/xml application/xml+rss text/javascript;
-
+    include compression;
     include <%= node['nginx']['vhost_dir'] %>/*.conf;
 }
