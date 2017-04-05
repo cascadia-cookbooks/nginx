@@ -1,0 +1,19 @@
+# Chef generated file. Do not edit.
+
+gzip         <%= node['nginx']['gzip'] %>;
+gzip_vary    <%= node['nginx']['gzip_vary'] %>;
+gzip_proxied <%= node['nginx']['gzip_proxied'] %>;
+
+gzip_disable    "msie6";
+gzip_comp_level <%= node['nginx']['gzip_comp_level'] %>;
+gzip_min_length <%= node['nginx']['gzip_min_length'] %>;
+gzip_buffers    <%= node['nginx']['gzip_buffers'] %>;
+
+gzip_types
+<% node['nginx']['gzip_types'].each do |type| %>
+  <% if type == node['nginx']['gzip_types'].last %>
+    <%= type %>;
+  <% else %>
+    <%= type %>
+  <% end %>
+<% end %>
