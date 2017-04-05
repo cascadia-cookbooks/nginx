@@ -33,6 +33,14 @@ describe 'nginx::default' do
     it { should be_mode '644' }
   end
 
+  describe file('/etc/nginx/compression') do
+    it { should be_owned_by 'root' }
+    it { should be_grouped_into 'root' }
+    it { should be_mode '644' }
+    it { should contain('gzip         on;') }
+    it { should contain('application/x-javascript') }
+  end
+
   describe file('/etc/nginx/mime.types') do
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'root' }
