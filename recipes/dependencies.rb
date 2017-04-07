@@ -23,11 +23,11 @@ when 'debian'
 
     file 'install nginx repo' do
         path    '/etc/apt/sources.list.d/nginx.list'
-        content "deb https://nginx.org/packages/mainline/#{node['platform']}/ #{node['lsb']['codename']} nginx"
+        content "deb https://nginx.org/packages/mainline/#{platform}/ #{node['lsb']['codename']} nginx"
         user   'root'
         group  'root'
         mode   0644
-        action :create_if_missing
+        action :create
         notifies :run, 'execute[import nginx gpg]', :immediately
         notifies :run, 'execute[update apt]', :immediately
     end
@@ -48,13 +48,13 @@ when 'rhel'
         path    '/etc/yum.repos.d/nginx.repo'
         content "[nginx]
 name=Nginx
-baseurl=https://nginx.org/packages/mainline/#{node['platform']}/#{node['platform_version'].to_i}/$basearch/
+baseurl=https://nginx.org/packages/mainline/#{platform}/#{node['platform_version'].to_i}/$basearch/
 enabled=1
 gpgcheck=1"
         user   'root'
         group  'root'
         mode   0644
-        action :create_if_missing
+        action :create
         notifies :run, 'execute[import nginx gpg]', :immediately
     end
 
