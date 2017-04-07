@@ -11,7 +11,7 @@ remote_file 'download nginx gpg key' do
     owner  'root'
     group  'root'
     mode   0644
-    action :create_if_missing
+    action :create
 end
 
 # NOTE: nginx.org uses 'rhel' instead of 'redhat' in mainline list
