@@ -14,6 +14,9 @@ remote_file 'download nginx gpg key' do
     action :create_if_missing
 end
 
+# NOTE: nginx.org uses 'rhel' instead of 'redhat' in mainline list
+# rhel/centos and debian/ubuntu might be identical, but rather be safe here
+platform = node['platform'] == 'redhat' ? 'rhel' : node['platform']
 case node['platform_family']
 when 'debian'
     # NOTE: support for https in apt repos
