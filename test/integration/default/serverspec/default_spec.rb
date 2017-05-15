@@ -16,7 +16,8 @@ describe 'nginx::default' do
   end
 
   describe command('nginx -v') do
-    its(:stderr) { should match /1.11.?/ }
+    # NOTE: version 2 should be far enough out
+    its(:stderr) { should match /1\.[0-9]/ }
   end
 
   describe user('nginx') do
