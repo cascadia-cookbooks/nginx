@@ -13,3 +13,5 @@ supports 'ubuntu', '>= 14.04'
 supports 'debian', '>= 6'
 supports 'rhel', '>= 6'
 supports 'centos', '>= 6'
+
+depends 'cop_tls'

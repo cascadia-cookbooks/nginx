@@ -16,4 +16,31 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[cop_nginx::default]
+    - recipe[cop_tls::dhparams]
+    - recipe[cop_tls::snakeoil]
+    - recipe[cop_nginx::default]
+    attributes:
+        tls:
+            snakeoil:
+                certs:
+                    test.localhost.com:
+                        country: US
+                        state: Oregon
+                        city: Portland
+                        company: Copious
+                        section: Devops
+                        hostname: test.localhost.com
+                        contact: test@copiousdev.com
+        nginx:
+            remove_default_site: true
+            vhosts:
+               test.localhost.com:
+                   server_name: test.localhost.com
+                   additional_names: something.test.localhost.com
+                   docroot: /var/www/html/testing
+                   ssl:
+                       cert: /etc/ssl/certs/test.localhost.com.crt
+                       key: /etc/ssl/private/test.localhost.com.key
+                       dhparams: /etc/ssl/certs/dhparams.pem
+                   includes:
+                       - compression
