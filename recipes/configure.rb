@@ -33,6 +33,24 @@ template 'installing master nginx config' do
     notifies :restart, 'service[nginx]', :delayed
 end
 
+if node['nginx']['vhosts']
+    node['nginx']['vhosts'].each do |vhost, data|
+        template "installing #{vhost} nginx vhost" do
+            path     "#{node['nginx']['vhost_dir']}/#{vhost}.conf"
+            source   'nginx/vhost.conf.erb'
+            group    'root'
+            owner    'root'
+            mode     0644
+            backup   5
+            action   :create
+            variables ({
+                :data => data
+            })
+            notifies :restart, 'service[nginx]', :delayed
+        end
+    end
+end
+
 service 'nginx' do
     action :enable
     notifies :start, 'service[nginx]', :delayed
