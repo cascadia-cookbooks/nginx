@@ -1,0 +1,33 @@
+server {
+    listen 80;
+    server_name <%= @data['server_name'] %> <%= @data['additional_names'] %>;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    server_name <%= @data['server_name'] %> <%= @data['additional_names'] %>;
+    listen 443 ssl;
+
+    access_log /var/log/nginx/<%= @data['server_name'] %>.access.log;
+    error_log  /var/log/nginx/<%= @data['server_name'] %>.error.log;
+
+<% if @data['ssl'] %>
+    ssl_certificate           <%= @data['ssl']['cert'] %>;
+    ssl_certificate_key       <%= @data['ssl']['key'] %>;
+    ssl_dhparam               <%= @data['ssl']['dhparams'] %>;
+    ssl_protocols             TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers               HIGH:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4:!3DES;
+    ssl_session_cache         shared:SSL:1m;
+    ssl_session_timeout       30m;
+    ssl_prefer_server_ciphers on;
+<% end %>
+
+    set $MAGE_ROOT <%= @data['docroot'] %>;
+    root $MAGE_ROOT;
+
+<% if @data['includes'] %>
+    <% @data['includes'].each do |file| %>
+    include <%= file %>;
+    <% end %>
+<% end %>
+}
