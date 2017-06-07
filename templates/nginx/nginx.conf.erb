@@ -27,6 +27,5 @@ http {
     keepalive_timeout <%= node['nginx']['keepalive_timeout'] %>;
     autoindex         off;
 
-    include compression;
     include <%= node['nginx']['vhost_dir'] %>/*.conf;
 }
