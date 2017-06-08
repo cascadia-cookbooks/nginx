@@ -4,6 +4,12 @@
 # Author:: Copious Inc. <engineering@copiousinc.com>
 #
 
+directory node['nginx']['vhost_dir'] do
+    owner 'root'
+    group 'root'
+    mode  0755
+end
+
 file "#{node['nginx']['vhost_dir']}/default.conf" do
     backup   false
     action   :delete
