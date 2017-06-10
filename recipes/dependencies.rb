@@ -1,22 +1,11 @@
 #
 # Cookbook Name:: cop_nginx
 # Recipe:: dependencies
-#
-
-cache = Chef::Config[:file_cache_path]
-
-remote_file 'download nginx gpg key' do
-    path   "#{cache}/nginx.asc"
-    source 'https://nginx.org/packages/keys/nginx_signing.key'
-    owner  'root'
-    group  'root'
-    mode   0644
-    action :create
-end
 
 # NOTE: nginx.org uses 'rhel' instead of 'redhat' in mainline list
 # rhel/centos and debian/ubuntu might be identical, but rather be safe here
 platform = node['platform'] == 'redhat' ? 'rhel' : node['platform']
+
 case node['platform_family']
 when 'debian'
 
