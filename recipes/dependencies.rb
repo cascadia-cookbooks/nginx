@@ -47,24 +47,14 @@ when 'debian'
         action  :nothing
     end
 when 'rhel'
-    file 'install nginx repo' do
-        path    '/etc/yum.repos.d/nginx.repo'
-        content "[nginx]
-name=Nginx
-baseurl=https://nginx.org/packages/mainline/#{platform}/#{node['platform_version'].to_i}/$basearch/
-enabled=1
-gpgcheck=1"
-        user   'root'
-        group  'root'
-        mode   0644
+
+    yum_repository 'nginx' do
+        description "NGINX Repository"
+        baseurl "https://nginx.org/packages/mainline/#{platform}/#{node['platform_version'].to_i}/$basearch/"
+        enabled true
+        gpgcheck true
+        gpgkey "https://nginx.org/keys/nginx_signing.key"
         action :create
-        notifies :run, 'execute[import nginx gpg]', :immediately
     end
 
-    execute 'import nginx gpg' do
-        command "rpm --import #{cache}/nginx.asc"
-        # NOTE: nginx public key id: 7BD9BF62
-        not_if  'rpm -qa gpg-pubkey* | grep 7BD9BF62'
-        action  :nothing
-    end
 end
