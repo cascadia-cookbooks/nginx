@@ -19,33 +19,24 @@ end
 platform = node['platform'] == 'redhat' ? 'rhel' : node['platform']
 case node['platform_family']
 when 'debian'
+
     # NOTE: support for https in apt repos
     package 'apt-transport-https' do
         action :install
     end
 
-    file 'install nginx repo' do
-        path    '/etc/apt/sources.list.d/nginx.list'
-        content "deb https://nginx.org/packages/mainline/#{platform}/ #{node['lsb']['codename']} nginx"
-        user   'root'
-        group  'root'
-        mode   0644
-        action :create
-        notifies :run, 'execute[import nginx gpg]', :immediately
-        notifies :run, 'execute[update apt]', :immediately
-    end
-
-    execute 'import nginx gpg' do
-        command "apt-key add #{cache}/nginx.asc"
-        # NOTE: nginx public key id: 7BD9BF62
-        not_if  'apt-key list | grep 7BD9BF62'
-        action  :nothing
+    apt_repository 'nginx' do
+        uri "https://nginx.org/packages/mainline/#{platform}/"
+        distribution "#{node['lsb']['codename']}"
+        key "https://nginx.org/keys/nginx_signing.key"
+        components ['nginx']
     end
 
     execute 'update apt' do
         command 'apt-get update'
         action  :nothing
     end
+
 when 'rhel'
 
     yum_repository 'nginx' do
