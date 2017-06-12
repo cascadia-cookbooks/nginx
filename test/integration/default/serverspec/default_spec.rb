@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe 'nginx::default' do
-  # TODO: test source recipe too
-  # TODO: move this to the package recipe
   describe package('nginx') do
     it { should be_installed }
   end
