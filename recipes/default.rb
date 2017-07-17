@@ -28,3 +28,4 @@
 include_recipe 'cop_nginx::dependencies'
 include_recipe 'cop_nginx::install'
 include_recipe 'cop_nginx::configure'
+include_recipe 'cop_nginx::blocks'
