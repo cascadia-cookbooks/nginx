@@ -47,3 +47,8 @@ suites:
             blocks:
               test_block:
                 content: "Some nice NGINX code"
+              hashed_block:
+                content:
+                  - "This"
+                  - "works"
+                  - "too"
