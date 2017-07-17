@@ -42,4 +42,18 @@ describe 'nginx::default' do
     it { should be_grouped_into 'root' }
     it { should be_mode '644' }
   end
+
+  describe file('/etc/nginx/block.d') do
+    it { should be_directory }
+    it { should be_owned_by 'root' }
+    it { should be_grouped_into 'root' }
+    it { should be_mode '755' }
+  end
+
+
+  describe file('/etc/nginx/block.d/test_block') do
+    it { should be_owned_by 'root' }
+    it { should be_grouped_into 'root' }
+    it { should be_mode '644' }
+  end
 end
