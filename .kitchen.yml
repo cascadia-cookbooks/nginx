@@ -44,6 +44,9 @@ suites:
                        dhparams: /etc/ssl/certs/dhparams.pem
                    includes:
                        - compression
+                   blocks:
+                       - string_block
+                       - hashed_block
             blocks:
               string_block:
                 content: "# Some nice NGINX code"
