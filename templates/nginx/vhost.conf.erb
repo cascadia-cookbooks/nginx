@@ -30,4 +30,10 @@ server {
     include <%= file %>;
     <% end %>
 <% end %>
+
+<% if @data['blocks'] %>
+    <% @data['blocks'].each do |block| %>
+    include <%= node['nginx']['block_dir'] %>/<%= block %>;
+    <% end %>
+<% end %>
 }
