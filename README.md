@@ -33,7 +33,7 @@ The following configuration will create a file `/etc/nginx/block.d/en_rewrite` w
 ```
 nginx: {
     blocks: {
-        en_rewrite:{
+        en_rewrite: {
             content: "rewrite ^/$ /en/ permanent;"
         }
     },
