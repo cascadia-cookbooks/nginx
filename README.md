@@ -43,7 +43,9 @@ nginx: {
             docroot: '/var/www/example.com/index',
             includes: %w{
                 compression
-                block.d/en_rewrite
+            },
+            blocks: %w{
+                en_rewrite
             }
         }
     }
