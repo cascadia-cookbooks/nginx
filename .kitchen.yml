@@ -45,10 +45,10 @@ suites:
                    includes:
                        - compression
             blocks:
-              test_block:
-                content: "Some nice NGINX code"
+              string_block:
+                content: "# Some nice NGINX code"
               hashed_block:
                 content:
-                  - "This"
-                  - "works"
-                  - "too"
+                  - "# This"
+                  - "# works"
+                  - "# too"
