@@ -56,4 +56,11 @@ describe 'nginx::default' do
     it { should be_mode '644' }
     it { should contain('Some nice NGINX code') }
   end
+
+  describe file('/etc/nginx/block.d/hashed_block') do
+    it { should be_owned_by 'root' }
+    it { should be_grouped_into 'root' }
+    it { should be_mode '644' }
+    it { should contain("# This\n# works\n# too") }
+  end
 end
