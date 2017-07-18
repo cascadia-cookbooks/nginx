@@ -11,6 +11,7 @@ default['nginx'] = {
     'tcp_nodelay'         => 'on',
     'keepalive_timeout'   => 30,
     'vhost_dir'           => '/etc/nginx/conf.d',
+    'block_dir'           => '/etc/nginx/block.d',
     'gzip'                => 'on',
     'gzip_vary'           => 'on',
     'gzip_proxied'        => 'any',

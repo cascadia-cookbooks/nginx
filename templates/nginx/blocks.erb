@@ -1,0 +1,9 @@
+# Chef generated file. Do not edit.
+
+<% if @content %>
+<% if @content.respond_to? :each %><% @content.each do |line| %><%= line %>
+<% end %>
+<% else %>
+<%= @content %>
+<% end %>
+<% end %>
