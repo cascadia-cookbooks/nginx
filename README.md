@@ -22,10 +22,10 @@ mainline version, currently 1.11
 The `node['nginx']['blocks']` attribute allows for the inclusion of arbitrary
 NGINX configuration files.
 
-`node['nginx']['block_dir']` (string) directory to create blocks, defaults to `/etc/nginx/block.d/`
-`node['nginx']['blocks']` (hash) configuration files to create
-`node['nginx']['blocks']['<BLOCK_NAME']` (hash) block to create, filename matches `<BLOCK_NAME>`
-`node['nginx']['blocks']['<BLOCK_NAME']['content']` (string or array) content of block, can be either single line (string), or multiple lines (array)
+* `node['nginx']['block_dir']` (string) directory to create blocks, defaults to `/etc/nginx/block.d/`
+* `node['nginx']['blocks']` (hash) configuration files to create
+* `node['nginx']['blocks']['<BLOCK_NAME']` (hash) block to create, filename matches `<BLOCK_NAME>`
+* `node['nginx']['blocks']['<BLOCK_NAME']['content']` (string or array) content of block, can be either single line (string), or multiple lines (array)
 
 The following configuration will create a file `/etc/nginx/block.d/en_rewrite` with the content `rewrite ^/$ /en/ permanent;`. The vhost configuration shows the method of including this block.
 
