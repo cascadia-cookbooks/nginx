@@ -55,3 +55,36 @@ suites:
                   - "# This"
                   - "# works"
                   - "# too"
+  - name: varnish
+    run_list:
+    - recipe[cop_tls::dhparams]
+    - recipe[cop_tls::snakeoil]
+    - recipe[cop_ntp::default]
+    - recipe[cop_base::default]
+    - recipe[cop_varnish::default]
+    - recipe[cop_nginx::default]
+    attributes:
+        tls:
+            snakeoil:
+                certs:
+                    varnish.localhost.com:
+                        country: US
+                        state: Oregon
+                        city: Portland
+                        company: Copious
+                        section: Varnish
+                        hostname: varnish.localhost.com
+                        contact: varnish@copiousdev.com
+        nginx:
+            remove_default_site: true
+            vhosts:
+               varnish.localhost.com:
+                   server_name: varnish.localhost.com
+                   docroot: /var/www/html/testing
+                   ssl:
+                       cert: /etc/ssl/certs/varnish.localhost.com.crt
+                       key: /etc/ssl/private/varnish.localhost.com.key
+                       dhparams: /etc/ssl/certs/dhparams.pem
+        varnish:
+          frontend:
+            port: 6081
