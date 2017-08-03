@@ -57,10 +57,10 @@ suites:
                   - "# too"
   - name: varnish
     run_list:
+    - recipe[cop_base::default]
+    - recipe[cop_ntp::default]
     - recipe[cop_tls::dhparams]
     - recipe[cop_tls::snakeoil]
-    - recipe[cop_ntp::default]
-    - recipe[cop_base::default]
     - recipe[cop_varnish::default]
     - recipe[cop_nginx::default]
     attributes:
