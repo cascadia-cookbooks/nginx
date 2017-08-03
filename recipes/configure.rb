@@ -39,11 +39,20 @@ template 'installing master nginx config' do
     notifies :restart, 'service[nginx]', :delayed
 end
 
+# Check if cop_varnish cookbook is being used
+if node.recipe?('cop_varnish::default')
+    # Varnish specific vhost template
+    vhost_template_source = 'nginx/varnish.conf.erb'
+else
+    # Standard vhost template
+    vhost_template_source = 'nginx/vhost.conf.erb'
+end
+
 if node['nginx']['vhosts']
     node['nginx']['vhosts'].each do |vhost, data|
         template "installing #{vhost} nginx vhost" do
             path     "#{node['nginx']['vhost_dir']}/#{vhost}.conf"
-            source   'nginx/vhost.conf.erb'
+            source   vhost_template_source
             group    'root'
             owner    'root'
             mode     0644
