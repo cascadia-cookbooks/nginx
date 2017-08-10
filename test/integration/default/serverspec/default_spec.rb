@@ -70,6 +70,6 @@ describe 'nginx::vhost' do
         it { should be_owned_by 'root' }
         it { should be_grouped_into 'root' }
         it { should be_mode '644' }
-        its(:content) { should include 'ssl_ciphers               HIGH:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4:!3DES:NEW-CIPHER:!BAD-CIPHER;' }
+        its(:content) { should include 'ssl_ciphers               :HIGH:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4:!3DES;' }
     end
 end
