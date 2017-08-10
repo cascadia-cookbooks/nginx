@@ -42,10 +42,6 @@ suites:
                        cert: /etc/ssl/certs/test.localhost.com.crt
                        key: /etc/ssl/private/test.localhost.com.key
                        dhparams: /etc/ssl/certs/dhparams.pem
-                       additional_ciphers: [
-                           "NEW-CIPHER",
-                           "!BAD-CIPHER"
-                       ]
                    includes:
                        - compression
                    blocks:
