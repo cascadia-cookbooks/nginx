@@ -30,6 +30,19 @@ default['nginx'] = {
         application/xml
         application/xml+rss
         image/svg+xml
+    },
+    'ssl' => {
+        'ciphers' => %w{
+            HIGH
+            !aNULL
+            !eNULL
+            !EXPORT
+            !DES
+            !MD5
+            !PSK
+            !RC4
+            !3DES
+        }
     }
 }
 
