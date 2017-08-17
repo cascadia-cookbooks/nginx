@@ -1,5 +1,6 @@
 # master config options
 default['nginx'] = {
+    'client_max_body_size'=> '1M',
     'remove_default_site' => false,
     'user'                => 'nginx',
     'worker_processes'    => 2,

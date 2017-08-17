@@ -26,6 +26,7 @@ http {
     tcp_nodelay       <%= node['nginx']['tcp_nodelay'] %>;
     keepalive_timeout <%= node['nginx']['keepalive_timeout'] %>;
     autoindex         off;
+    client_max_body_size <%= node['nginx']['client_max_body_size'] %>;
 
     include <%= node['nginx']['vhost_dir'] %>/*.conf;
 }
