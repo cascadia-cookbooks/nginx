@@ -20,6 +20,12 @@ server {
 <% end %>
 
     location / {
+
+        # add no cache header if query string ?no_cache=1 is set in order to bust varnish cache
+        if ($arg_no_cache = "1") {
+            add_header Set-Cookie "<%= node['varnish']['bypass_cookie'] %>=1;Domain=<%= @data['server_name'] %>;Path=/;Max-Age=64400";
+        }
+
         proxy_pass http://<%= node['varnish']['frontend']['ip'] %>:<%= node['varnish']['frontend']['port'] %>;
 
         proxy_set_header Host $host;
