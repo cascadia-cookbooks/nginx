@@ -16,6 +16,8 @@ mainline version, currently 1.11
 
 ## Attributes
 - TODO
+* `node['nginx']['packages']` (hash) additional supporting packages to install
+* `node['nginx']['modules']` (hash) paths to NGINX modules to load
 
 #### Blocks
 

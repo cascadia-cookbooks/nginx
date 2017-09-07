@@ -32,6 +32,11 @@ suites:
                         hostname: test.localhost.com
                         contact: test@copiousdev.com
         nginx:
+            packages:
+                - 'nginx-module-geoip'
+            modules:
+                - 'modules/ngx_http_geoip_module.so'
+                - 'modules/ngx_stream_geoip_module.so'
             remove_default_site: true
             vhosts:
                test.localhost.com:
