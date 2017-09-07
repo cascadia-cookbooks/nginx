@@ -5,6 +5,11 @@ describe 'nginx::default' do
     it { should be_installed }
   end
 
+  # Test for additional packages
+  describe package('nginx-module-geoip') do
+    it { should be_installed }
+  end
+
   describe service('nginx') do
       it { should be_enabled }
       it { should be_running }
@@ -27,6 +32,8 @@ describe 'nginx::default' do
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'root' }
     it { should be_mode '644' }
+    its(:content) { should include 'load_module modules/ngx_http_geoip_module.so;'}
+    its(:content) { should include 'load_module modules/ngx_stream_geoip_module.so;'}
   end
 
   describe file('/etc/nginx/compression') do
