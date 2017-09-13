@@ -42,6 +42,8 @@ server {
     listen <%= node['varnish']['backend']['port'] %>;
     server_name <%= @data['server_name'] %> <%= @data['additional_names'] %>;
 
+    port_in_redirect off;
+
     access_log /var/log/nginx/<%= @data['server_name'] %>.access.log;
     error_log  /var/log/nginx/<%= @data['server_name'] %>.error.log;
 
