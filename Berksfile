@@ -2,7 +2,7 @@ source 'https://supermarket.chef.io'
 
 metadata
 
-cookbook 'cop_base', git: 'git@github.com:copious-cookbooks/base.git'
-cookbook 'cop_ntp', git: 'git@github.com:copious-cookbooks/ntp.git'
-cookbook 'cop_tls', git: 'git@github.com:copious-cookbooks/tls.git'
-cookbook 'cop_varnish', git: 'git@github.com:copious-cookbooks/varnish.git'
+cookbook 'cop_base',    tag: '~> 1.0', github: 'copious-cookbooks/base'
+cookbook 'cop_ntp',     tag: '~> 1.0', github: 'copious-cookbooks/ntp'
+cookbook 'cop_tls',     tag: '~> 1.0', github: 'copious-cookbooks/tls'
+cookbook 'cop_varnish', tag: '~> 1.0', github: 'copious-cookbooks/varnish'
