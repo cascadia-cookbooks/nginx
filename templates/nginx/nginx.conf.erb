@@ -35,5 +35,11 @@ http {
     autoindex         off;
     client_max_body_size <%= node['nginx']['client_max_body_size'] %>;
 
+<% if node['nginx']['master_configs'] %>
+    <% node['nginx']['master_configs'].each do |k,v| %>
+    <%= k %> <%= v %>;
+    <% end %>
+<% end %>
+
     include <%= node['nginx']['vhost_dir'] %>/*.conf;
 }
