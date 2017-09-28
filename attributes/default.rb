@@ -1,5 +1,7 @@
 # master config options
 default['nginx'] = {
+    'install_method'      => 'compile',
+    'version'             => '1.13.5',
     'client_max_body_size'=> '1M',
     'remove_default_site' => false,
     'user'                => 'nginx',

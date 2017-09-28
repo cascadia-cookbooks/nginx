@@ -26,6 +26,13 @@
 # THE SOFTWARE.
 
 include_recipe 'cop_nginx::dependencies'
-include_recipe 'cop_nginx::install'
-include_recipe 'cop_nginx::configure'
-include_recipe 'cop_nginx::blocks'
+
+case node['nginx']['install_method']
+when 'package'
+    include_recipe 'cop_nginx::install'
+when 'compile'
+    include_recipe 'cop_nginx::compile'
+end
+
+#include_recipe 'cop_nginx::configure'
+#include_recipe 'cop_nginx::blocks'
